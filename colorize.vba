@@ -1,7 +1,12 @@
 ''' Macros to colorize AccessPort logs
-''' v 1.1
+''' * v 1.2
+''' + Added color bar for Calculated Load and WGDC
 '''
-
+''' * v1.1
+''' + Added column selection by name
+''' + Highlight Actual AFR cells which are bigger than Equiv. Ratio
+'''   by more than 2%
+'''
 
 Sub FreezeTopRow()
 ' FreezeTopRow Macro
@@ -381,6 +386,64 @@ Sub ColorizeAPlog()
 
         Selection.FormatConditions(1).AxisPosition = xlDataBarAxisAutomatic
 
+        With Selection.FormatConditions(1).AxisColor
+            .Color = 0
+            .TintAndShade = 0
+        End With
+        With Selection.FormatConditions(1).NegativeBarFormat.Color
+            .Color = 255
+            .TintAndShade = 0
+        End With
+    End If
+    
+    ' Calculated Load
+    'Columns("F:F").Select
+    If selectColumn("Calculated Load*") Then
+        Selection.FormatConditions.AddDatabar
+        Selection.FormatConditions(Selection.FormatConditions.Count).ShowValue = True
+        Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+        With Selection.FormatConditions(1)
+            .MinPoint.Modify newtype:=xlConditionValueAutomaticMin
+            .MaxPoint.Modify newtype:=xlConditionValueAutomaticMax
+        End With
+        With Selection.FormatConditions(1).BarColor
+            .Color = 8061142
+            .TintAndShade = 0
+        End With
+        Selection.FormatConditions(1).BarFillType = xlDataBarFillSolid
+        Selection.FormatConditions(1).Direction = xlContext
+        Selection.FormatConditions(1).NegativeBarFormat.ColorType = xlDataBarColor
+        Selection.FormatConditions(1).BarBorder.Type = xlDataBarBorderNone
+        Selection.FormatConditions(1).AxisPosition = xlDataBarAxisAutomatic
+        With Selection.FormatConditions(1).AxisColor
+            .Color = 0
+            .TintAndShade = 0
+        End With
+        With Selection.FormatConditions(1).NegativeBarFormat.Color
+            .Color = 255
+            .TintAndShade = 0
+        End With
+    End If
+    
+    ' WGDC
+    'Columns("T:T").Select
+    If selectColumn("Wastegate Duty*") Then
+        Selection.FormatConditions.AddDatabar
+        Selection.FormatConditions(Selection.FormatConditions.Count).ShowValue = True
+        Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+        With Selection.FormatConditions(1)
+            .MinPoint.Modify newtype:=xlConditionValueAutomaticMin
+            .MaxPoint.Modify newtype:=xlConditionValueAutomaticMax
+        End With
+        With Selection.FormatConditions(1).BarColor
+            .Color = 8061142
+            .TintAndShade = 0
+        End With
+        Selection.FormatConditions(1).BarFillType = xlDataBarFillSolid
+        Selection.FormatConditions(1).Direction = xlContext
+        Selection.FormatConditions(1).NegativeBarFormat.ColorType = xlDataBarColor
+        Selection.FormatConditions(1).BarBorder.Type = xlDataBarBorderNone
+        Selection.FormatConditions(1).AxisPosition = xlDataBarAxisAutomatic
         With Selection.FormatConditions(1).AxisColor
             .Color = 0
             .TintAndShade = 0
