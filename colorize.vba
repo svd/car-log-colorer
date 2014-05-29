@@ -1,6 +1,9 @@
 ''' Macros to colorize AccessPort logs
+''' * v 1.3
+''' + Added color scale for BAT
+'''
 ''' * v 1.2
-''' + Added color bar for Calculated Load and WGDC
+''' + Added color bar for WGDC
 '''
 ''' * v1.1
 ''' + Added column selection by name
@@ -222,6 +225,34 @@ Sub ColorizeAPlog()
         End With
     End If
     
+    ' Boost Air Temp
+    'Columns("E:E").Select
+    If selectColumn("Boost Air Temp*") Then
+        Selection.FormatConditions.AddColorScale ColorScaleType:=3
+        Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+        Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(1).Value = 30
+        With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+            .Color = 8109667
+            .TintAndShade = 0
+        End With
+        Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 50
+        With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+            .Color = 8711167
+            .TintAndShade = 0
+        End With
+        Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(3).Value = 70
+        With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+            .Color = 7039480
+            .TintAndShade = 0
+        End With
+    End If
+    
     ' HPFP Act. Press.
     'Columns("G:G").Select
     colA = getColumnName("HPFP Act. Press. (*")
@@ -396,9 +427,9 @@ Sub ColorizeAPlog()
         End With
     End If
     
-    ' Calculated Load
-    'Columns("F:F").Select
-    If selectColumn("Calculated Load*") Then
+    ' WGDC
+    'Columns("T:T").Select
+    If selectColumn("Wastegate Duty*") Then
         Selection.FormatConditions.AddDatabar
         Selection.FormatConditions(Selection.FormatConditions.Count).ShowValue = True
         Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
@@ -425,9 +456,8 @@ Sub ColorizeAPlog()
         End With
     End If
     
-    ' WGDC
-    'Columns("T:T").Select
-    If selectColumn("Wastegate Duty*") Then
+    ' Calculated Load
+    If selectColumn("Calculated Load*") Then
         Selection.FormatConditions.AddDatabar
         Selection.FormatConditions(Selection.FormatConditions.Count).ShowValue = True
         Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
