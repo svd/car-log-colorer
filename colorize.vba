@@ -172,31 +172,30 @@ Sub ColorizeAPlog()
     End If
 
     ' Actual AFR
-    colA = getColumnName("Actual AFR (*")
-    colB = getColumnName("Equiv. Ratio*")
-    ' v1 formula: Actual AFR > Commanded AFR
-    ' "= C1 > D1"
-    'f = "= " & colA & "1 > " & colB & "1"
-    '
-    ' Formula:
-    '     "= (C1 - D1) / C1 * 100 > 2"
-    '  Where:
-    '     C1 - Actual AFR
-    '     D1 - Equiv. Ratio (Commanded AFR)
-    ' That means: select all cell where Actual AFR is more than 2% bigger
-    ' than commanded AFR
-    f = "= (" & colA & "1 - " & colB & "1) / " & colA & "1 * 100 > 2"
-    If colA <> "" And colB <> "" And selectColumn("Actual AFR (*") Then
-        'Selection.FormatConditions.Add Type:=xlCellValue, Operator:=xlGreater, _
-        '    Formula1:="=14.7"
-        Selection.FormatConditions.Add Type:=xlExpression, Formula1:=f
+    If selectColumn("Actual AFR (*") Then
+        Selection.FormatConditions.AddColorScale ColorScaleType:=3
         Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
-        With Selection.FormatConditions(1).Interior
-            .PatternColorIndex = xlAutomatic
-            .Color = 65535
+        Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(1).Value = 10.5
+        With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+            .ThemeColor = xlThemeColorAccent1
+            .TintAndShade = 0.599993896298105
+        End With
+        Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 14
+        With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+            .Color = 5287936
             .TintAndShade = 0
         End With
-        Selection.FormatConditions(1).StopIfTrue = False
+        Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(3).Value = 16
+        With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+            .ThemeColor = xlThemeColorAccent4
+            .TintAndShade = 0.599993896298105
+        End With
     End If
     
     ' Boost
