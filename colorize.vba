@@ -1,4 +1,9 @@
 ''' Macros to colorize AccessPort logs
+''' * v 1.4
+''' + Changed color style for AFR: using 3-color scale formatting
+''' + Changed colors for LTFT
+''' + Added colors for STFT
+'''
 ''' * v 1.3
 ''' + Added color scale for BAT
 '''
@@ -297,25 +302,52 @@ Sub ColorizeAPlog()
             xlConditionValueNumber
         Selection.FormatConditions(1).ColorScaleCriteria(1).Value = -12
         With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
-            .Color = 192
-            .TintAndShade = 0
+            .ThemeColor = xlThemeColorAccent4
+            .TintAndShade = -0.249977111117893
         End With
         Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
             xlConditionValueNumber
         Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 0
         With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
-            .Color = 5287936
+            .Color = 5296274
             .TintAndShade = 0
         End With
         Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
             xlConditionValueNumber
         Selection.FormatConditions(1).ColorScaleCriteria(3).Value = 12
         With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
-            .Color = 255
-            .TintAndShade = 0
+            .ThemeColor = xlThemeColorAccent2
+            .TintAndShade = -0.249977111117893
         End With
     End If
     
+    ' Short Term FT (%)
+    If selectColumn("Short Term FT (%)") Then
+        Selection.FormatConditions.AddColorScale ColorScaleType:=3
+        Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+        Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(1).Value = -20
+        With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+            .ThemeColor = xlThemeColorAccent4
+            .TintAndShade = 0.399975585192419
+        End With
+        Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 0
+        With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+            .ThemeColor = xlThemeColorAccent6
+            .TintAndShade = 0.599993896298105
+        End With
+        Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(3).Value = 20
+        With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+            .ThemeColor = xlThemeColorAccent2
+            .TintAndShade = 0.399975585192419
+        End With
+    End If
+
     ' Mass Airflow (g/s)
     'Columns("M:M").Select
     If selectColumn("Mass Airflow (g/s)*") Then
