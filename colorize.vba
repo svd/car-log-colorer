@@ -1,4 +1,7 @@
 ''' Macros to colorize AccessPort logs
+''' * v 1.5
+''' + Changed color style for Knock Retard: using 3-color scale formatting
+'''
 ''' * v 1.4
 ''' + Changed color style for AFR: using 3-color scale formatting
 ''' + Changed colors for LTFT
@@ -278,19 +281,29 @@ Sub ColorizeAPlog()
     ' Knock Retard
     'Columns("J:J").Select
     If selectColumn("Knock Retard*") Then
-        Selection.FormatConditions.Add Type:=xlCellValue, Operator:=xlGreater, _
-            Formula1:="=0"
+        Selection.FormatConditions.AddColorScale ColorScaleType:=3
         Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
-        With Selection.FormatConditions(1).Font
-            .Color = -16751204
+        Selection.FormatConditions(1).ColorScaleCriteria(1).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(1).Value = 0
+        With Selection.FormatConditions(1).ColorScaleCriteria(1).FormatColor
+            .ThemeColor = xlThemeColorDark1
             .TintAndShade = 0
         End With
-        With Selection.FormatConditions(1).Interior
-            .PatternColorIndex = xlAutomatic
-            .Color = 10284031
+        Selection.FormatConditions(1).ColorScaleCriteria(2).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(2).Value = 3
+        With Selection.FormatConditions(1).ColorScaleCriteria(2).FormatColor
+            .ThemeColor = xlThemeColorAccent4
+            .TintAndShade = 0.399975585192419
+        End With
+        Selection.FormatConditions(1).ColorScaleCriteria(3).Type = _
+            xlConditionValueNumber
+        Selection.FormatConditions(1).ColorScaleCriteria(3).Value = 8
+        With Selection.FormatConditions(1).ColorScaleCriteria(3).FormatColor
+            .Color = 255
             .TintAndShade = 0
         End With
-        Selection.FormatConditions(1).StopIfTrue = False
     End If
     
     ' Long Term FT (%)
